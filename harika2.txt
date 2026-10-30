@@ -1,0 +1,449 @@
+SQL> CREATE TABLE department (
+  2      dept_id NUMBER(3) PRIMARY KEY,
+  3      dept_name VARCHAR2(30) NOT NULL
+  4  );
+CREATE TABLE department (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE dep (
+  2      dep_id NUMBER(3) PRIMARY KEY,
+  3      dep_name VARCHAR2(30) NOT NULL
+  4  );
+
+Table created.
+
+SQL> CREATE TABLE student (
+  2      roll_no NUMBER(5) PRIMARY KEY,
+  3      name VARCHAR2(30) NOT NULL,
+  4      age NUMBER(2),
+  5      marks NUMBER(5,2),
+  6      dep_id NUMBER(3),
+  7      FOREIGN KEY (dep_id) REFERENCES dep(dep_id)
+  8  );
+CREATE TABLE student (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> INSERT INTO dep VALUES (10, 'CSE');
+
+1 row created.
+
+SQL> INSERT INTO dep VALUES (20, 'IT');
+
+1 row created.
+
+SQL> INSERT INTO dep VALUES (30, 'ECE');
+
+1 row created.
+
+SQL> INSERT INTO dep VALUES (40, 'MECH');
+
+1 row created.
+
+SQL> INSERT INTO dep VALUES (50, 'CIVIL');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (101, 'Arun', 20, 85, 10);
+INSERT INTO student VALUES (101, 'Arun', 20, 85, 10)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (102, 'Priya', 19, 92, 10);
+INSERT INTO student VALUES (102, 'Priya', 19, 92, 10)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (103, 'Kumar', 21, 76, 20);
+INSERT INTO student VALUES (103, 'Kumar', 21, 76, 20)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (104, 'Divya', 20, 88, 20);
+INSERT INTO student VALUES (104, 'Divya', 20, 88, 20)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (105, 'Ravi', 22, 65, 30);
+INSERT INTO student VALUES (105, 'Ravi', 22, 65, 30)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (106, 'Anu', 19, 95, 30);
+INSERT INTO student VALUES (106, 'Anu', 19, 95, 30)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (107, 'Suresh', 21, 72, 10);
+INSERT INTO student VALUES (107, 'Suresh', 21, 72, 10)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> INSERT INTO student VALUES (108, 'Meena', 20, 81, 40);
+INSERT INTO student VALUES (108, 'Meena', 20, 81, 40)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A311.SYS_C0035677) violated 
+
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM student
+  3  WHERE dep_id IN (10, 20);
+WHERE dep_id IN (10, 20)
+      *
+ERROR at line 3:
+ORA-00904: "DEP_ID": invalid identifier 
+
+
+SQL> SELECT *
+  2  FROM student
+  3  WHERE marks IN (65, 76, 85);
+
+   ROLL_NO NAME                                  AGE      MARKS    DEPT_ID      
+---------- ------------------------------ ---------- ---------- ----------      
+       101 Arun                                   20         85         10      
+       103 Kumar                                  21         76         20      
+       105 Ravi                                   22         65         30      
+
+SQL> SELECT *
+  2  FROM student
+  3  WHERE dep_id IN
+  4  (
+  5      SELECT dep_id
+  6      FROM dep
+  7      WHERE dep_name = 'CSE'
+  8  );
+WHERE dep_id IN
+      *
+ERROR at line 3:
+ORA-00904: "DEP_ID": invalid identifier 
+
+
+SQL> SELECT name, marks
+  2  FROM student
+  3  WHERE marks > ANY
+  4  (
+  5      SELECT marks
+  6      FROM student
+  7      WHERE dep_id = 10
+  8  );
+    WHERE dep_id = 10
+          *
+ERROR at line 7:
+ORA-00904: "DEP_ID": invalid identifier 
+
+
+SQL> SELECT name, marks
+  2  FROM student
+  3  WHERE marks > ALL
+  4  (
+  5      SELECT marks
+  6      FROM student
+  7      WHERE dep_id = 10
+  8  );
+    WHERE dep_id = 10
+          *
+ERROR at line 7:
+ORA-00904: "DEP_ID": invalid identifier 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT dep_name
+  2  FROM dep d
+  3  WHERE NOT EXISTS
+  4  (
+  5      SELECT 1
+  6      FROM student s
+  7      WHERE s.dep_id = d.dep_id
+  8  );
+    WHERE s.dep_id = d.dep_id
+          *
+ERROR at line 7:
+ORA-00904: "S"."DEP_ID": invalid identifier 
+
+
+SQL> SELECT dep_id, COUNT(*) AS total_students
+  2  FROM student
+  3  GROUP BY dep_id;
+GROUP BY dep_id
+         *
+ERROR at line 3:
+ORA-00904: "DEP_ID": invalid identifier 
+
+
+SQL> create table employee(
+  2  employee_id INT,
+  3  first_name varchar(50),
+  4  last_name varchar(50,)
+  5  salary int
+  6  );
+last_name varchar(50,)
+                    *
+ERROR at line 4:
+ORA-00907: missing right parenthesis 
+
+
+SQL> create table employee(
+  2  employee_id INT,
+  3  first_name varchar(50),
+  4  last_name varchar(50),
+  5  department varchar(50),
+  6  salary int );
+create table employee(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE emp (
+  2      employee_id NUMBER,
+  3      first_name VARCHAR2(50),
+  4      last_name VARCHAR2(50),
+  5      department VARCHAR2(50),
+  6      salary NUMBER
+  7  );
+
+Table created.
+
+SQL> INSERT INTO emp VALUES (1, 'John', 'Smith', 'Sales', 50000);
+
+1 row created.
+
+SQL> INSERT INTO emp VALUES (2, 'Alice', 'Johnson', 'Marketing', 55000);
+
+1 row created.
+
+SQL> INSERT INTO emp VALUES (3, 'Michael', 'Williams', 'IT', 60000);
+
+1 row created.
+
+SQL> INSERT INTO emp VALUES (4, 'Emily', 'Brown', 'Human Resources', 48000);
+
+1 row created.
+
+SQL> INSERT INTO emp VALUES (5, 'David', 'Jones', 'Finance', 62000);
+
+1 row created.
+
+SQL> INSERT INTO emp VALUES (6, 'Sarah', 'Martinez', 'Operations', 53000);
+
+1 row created.
+
+SQL> SELECT * FROM emp;
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+          1 John                                                                
+Smith                                                                           
+Sales                                                   50000                   
+                                                                                
+          2 Alice                                                               
+Johnson                                                                         
+Marketing                                               55000                   
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+                                                                                
+          3 Michael                                                             
+Williams                                                                        
+IT                                                      60000                   
+                                                                                
+          4 Emily                                                               
+Brown                                                                           
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+Human Resources                                         48000                   
+                                                                                
+          5 David                                                               
+Jones                                                                           
+Finance                                                 62000                   
+                                                                                
+          6 Sarah                                                               
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+Martinez                                                                        
+Operations                                              53000                   
+                                                                                
+
+6 rows selected.
+
+SQL> CREATE VIEW emp_view AS
+  2  SELECT employee_id, first_name, last_name, department
+  3  FROM emp;
+
+View created.
+
+SQL> SELECT * FROM emp_view;
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+          1 John                                                                
+Smith                                                                           
+Sales                                                                           
+                                                                                
+          2 Alice                                                               
+Johnson                                                                         
+Marketing                                                                       
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+                                                                                
+          3 Michael                                                             
+Williams                                                                        
+IT                                                                              
+                                                                                
+          4 Emily                                                               
+Brown                                                                           
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+Human Resources                                                                 
+                                                                                
+          5 David                                                               
+Jones                                                                           
+Finance                                                                         
+                                                                                
+          6 Sarah                                                               
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+Martinez                                                                        
+Operations                                                                      
+                                                                                
+
+6 rows selected.
+
+SQL> UPDATE emp_view
+  2  SET department = 'Customer Service'
+  3  WHERE employee_id = 1;
+
+1 row updated.
+
+SQL> SELECT * FROM emp_view;
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+          1 John                                                                
+Smith                                                                           
+Customer Service                                                                
+                                                                                
+          2 Alice                                                               
+Johnson                                                                         
+Marketing                                                                       
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+                                                                                
+          3 Michael                                                             
+Williams                                                                        
+IT                                                                              
+                                                                                
+          4 Emily                                                               
+Brown                                                                           
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+Human Resources                                                                 
+                                                                                
+          5 David                                                               
+Jones                                                                           
+Finance                                                                         
+                                                                                
+          6 Sarah                                                               
+
+EMPLOYEE_ID FIRST_NAME                                                          
+----------- --------------------------------------------------                  
+LAST_NAME                                                                       
+--------------------------------------------------                              
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+Martinez                                                                        
+Operations                                                                      
+                                                                                
+
+6 rows selected.
+
+SQL> DROP VIEW emp_view;
+
+View dropped.
+
+SQL> SELECT * FROM emp_view;
+SELECT * FROM emp_view
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> spool e:\black1.txt

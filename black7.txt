@@ -1,0 +1,260 @@
+SQL> CREATE TABLE Employee_Details (
+  2      emp_id NUMBER,
+  3      emp_name VARCHAR2(50),
+  4      department VARCHAR2(50),
+  5      salary NUMBER
+  6  );
+
+Table created.
+
+SQL> INSERT INTO Employee_Details VALUES (101, 'Arun', 'CSE', 50000);
+
+1 row created.
+
+SQL> INSERT INTO Employee_Details VALUES (102, 'Priya', 'ECE', 55000);
+
+1 row created.
+
+SQL> INSERT INTO Employee_Details VALUES (103, 'Karthik', 'IT', 60000);
+
+1 row created.
+
+SQL> INSERT INTO Employee_Details VALUES (104, 'Divya', 'HR', 48000);
+
+1 row created.
+
+SQL> INSERT INTO Employee_Details VALUES (105, 'Rahul', 'Finance', 62000);
+
+1 row created.
+
+SQL> INSERT INTO Employee_Details VALUES (106, 'Meena', 'CSE', 53000);
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM Employee_Details;
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+       101 Arun                                                                 
+CSE                                                     50000                   
+                                                                                
+       102 Priya                                                                
+ECE                                                     55000                   
+                                                                                
+       103 Karthik                                                              
+IT                                                      60000                   
+                                                                                
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+       104 Divya                                                                
+HR                                                      48000                   
+                                                                                
+       105 Rahul                                                                
+Finance                                                 62000                   
+                                                                                
+       106 Meena                                                                
+CSE                                                     53000                   
+                                                                                
+
+6 rows selected.
+
+SQL> CREATE VIEW Employee_View AS
+  2  SELECT emp_id, emp_name, department
+  3  FROM Employee_Details;
+
+View created.
+
+SQL> SELECT * FROM Employee_View;
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+       101 Arun                                                                 
+CSE                                                                             
+                                                                                
+       102 Priya                                                                
+ECE                                                                             
+                                                                                
+       103 Karthik                                                              
+IT                                                                              
+                                                                                
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+       104 Divya                                                                
+HR                                                                              
+                                                                                
+       105 Rahul                                                                
+Finance                                                                         
+                                                                                
+       106 Meena                                                                
+CSE                                                                             
+                                                                                
+
+6 rows selected.
+
+SQL> UPDATE Employee_View
+  2  SET department = 'IT'
+  3  WHERE emp_id = 101;
+
+1 row updated.
+
+SQL> SELECT * FROM Employee_View;
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+       101 Arun                                                                 
+IT                                                                              
+                                                                                
+       102 Priya                                                                
+ECE                                                                             
+                                                                                
+       103 Karthik                                                              
+IT                                                                              
+                                                                                
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                                                      
+--------------------------------------------------                              
+       104 Divya                                                                
+HR                                                                              
+                                                                                
+       105 Rahul                                                                
+Finance                                                                         
+                                                                                
+       106 Meena                                                                
+CSE                                                                             
+                                                                                
+
+6 rows selected.
+
+SQL> SELECT * FROM Employee_Details;
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+       101 Arun                                                                 
+IT                                                      50000                   
+                                                                                
+       102 Priya                                                                
+ECE                                                     55000                   
+                                                                                
+       103 Karthik                                                              
+IT                                                      60000                   
+                                                                                
+
+    EMP_ID EMP_NAME                                                             
+---------- --------------------------------------------------                   
+DEPARTMENT                                             SALARY                   
+-------------------------------------------------- ----------                   
+       104 Divya                                                                
+HR                                                      48000                   
+                                                                                
+       105 Rahul                                                                
+Finance                                                 62000                   
+                                                                                
+       106 Meena                                                                
+CSE                                                     53000                   
+                                                                                
+
+6 rows selected.
+
+SQL> DROP VIEW Employee_View;
+
+View dropped.
+
+SQL> SELECT * FROM Employee_View;
+SELECT * FROM Employee_View
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> CREATE SEQUENCE Emp_Seq
+  2  START WITH 107
+  3  INCREMENT BY 1
+  4  MINVALUE 1
+  5  MAXVALUE 200
+  6  NOCYCLE;
+
+Sequence created.
+
+SQL> SELECT Emp_Seq.NEXTVAL FROM dual;
+
+   NEXTVAL                                                                      
+----------                                                                      
+       107                                                                      
+
+SQL> SELECT Emp_Seq.NEXTVAL FROM dual;
+
+   NEXTVAL                                                                      
+----------                                                                      
+       108                                                                      
+
+SQL> CREATE SEQUENCE Emp_Seq_Down
+  2  START WITH 100
+  3  INCREMENT BY -1
+  4  MINVALUE 1
+  5  MAXVALUE 100
+  6  NOCYCLE;
+
+Sequence created.
+
+SQL> SELECT Emp_Seq_Down.NEXTVAL FROM dual;
+
+   NEXTVAL                                                                      
+----------                                                                      
+       100                                                                      
+
+SQL> SELECT Emp_Seq_Down.NEXTVAL FROM dual;
+
+   NEXTVAL                                                                      
+----------                                                                      
+        99                                                                      
+
+SQL> CREATE INDEX idx_emp_name
+  2  ON Employee_Details(emp_name);
+
+Index created.
+
+SQL> SELECT index_name, table_name
+  2  FROM user_indexes
+  3  WHERE table_name = 'EMPLOYEE_DETAILS';
+
+INDEX_NAME                     TABLE_NAME                                       
+------------------------------ ------------------------------                   
+IDX_EMP_NAME                   EMPLOYEE_DETAILS                                 
+
+SQL> SELECT index_name, column_name
+  2  FROM user_ind_columns
+  3  WHERE table_name = 'EMPLOYEE_DETAILS';
+
+INDEX_NAME                                                                      
+------------------------------                                                  
+COLUMN_NAME                                                                     
+--------------------------------------------------------------------------------
+IDX_EMP_NAME                                                                    
+EMP_NAME                                                                        
+                                                                                
+
+SQL> DROP INDEX idx_emp_name;
+
+Index dropped.
+
+SQL> spool off

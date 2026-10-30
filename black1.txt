@@ -1,0 +1,181 @@
+SQL> CREATE TABLE STUDE
+  2  (
+  3      STUDENT_ID INT PRIMARY KEY,
+  4      NAME VARCHAR(50),
+  5      DEPARTMENT VARCHAR(30),
+  6      YEAR INT,
+  7      MARKS INT
+  8  );
+
+Table created.
+
+SQL> INSERT INTO STUDE
+  2  VALUES(101,'Rahul','CSE',2,90);
+
+1 row created.
+
+SQL> SELECT * FROM STUDE;
+
+STUDENT_ID NAME                                                                 
+---------- --------------------------------------------------                   
+DEPARTMENT                           YEAR      MARKS                            
+------------------------------ ---------- ----------                            
+       101 Rahul                                                                
+CSE                                     2         90                            
+                                                                                
+
+SQL> SELECT NAME, MARKS
+  2  FROM STUDE;
+
+NAME                                                    MARKS                   
+-------------------------------------------------- ----------                   
+Rahul                                                      90                   
+
+SQL> SELECT *
+  2  FROM STUDE
+  3  WHERE DEPARTMENT='CSE';
+
+STUDENT_ID NAME                                                                 
+---------- --------------------------------------------------                   
+DEPARTMENT                           YEAR      MARKS                            
+------------------------------ ---------- ----------                            
+       101 Rahul                                                                
+CSE                                     2         90                            
+                                                                                
+
+SQL> SELECT *
+  2  FROM STUDE
+  3  ORDER BY MARKS DESC;
+
+STUDENT_ID NAME                                                                 
+---------- --------------------------------------------------                   
+DEPARTMENT                           YEAR      MARKS                            
+------------------------------ ---------- ----------                            
+       101 Rahul                                                                
+CSE                                     2         90                            
+                                                                                
+
+SQL> SELECT DISTINCT DEPARTMENT
+  2  FROM STUDE;
+
+DEPARTMENT                                                                      
+------------------------------                                                  
+CSE                                                                             
+
+SQL> INSERT INTO STUDE
+  2  VALUES(106,'Deepa','AI',2,89);
+
+1 row created.
+
+SQL> 
+SQL> UPDATE STUDE
+  2  SET MARKS=92
+  3  WHERE STUDENT_ID=106;
+
+1 row updated.
+
+SQL> 
+SQL> DELETE FROM STUDE
+  2  WHERE STUDENT_ID=102;
+
+0 rows deleted.
+
+SQL> 
+SQL> ALTER TABLE STUDE
+  2  ADD PHONE VARCHAR(15);
+
+Table altered.
+
+SQL> 
+SQL> SELECT *
+  2  FROM STUDE
+  3  WHERE MARKS > 90;
+
+STUDENT_ID NAME                                                                 
+---------- --------------------------------------------------                   
+DEPARTMENT                           YEAR      MARKS PHONE                      
+------------------------------ ---------- ---------- ---------------            
+       106 Deepa                                                                
+AI                                      2         92                            
+                                                                                
+
+SQL> CREATE TABLE STUDE
+  2  (
+  3      Student_ID INT PRIMARY KEY,
+  4      Name VARCHAR(50)
+  5  );
+CREATE TABLE STUDE
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> INSERT INTO STUDE
+  2  VALUES (101, 'Arun');
+INSERT INTO STUDE
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> CREATE TABLE STD
+  2  (
+  3      Student_ID INT PRIMARY KEY,
+  4      Name VARCHAR(50) NOT NULL,
+  5      Email VARCHAR(100) UNIQUE,
+  6      Age INT CHECK (Age >= 18),
+  7      City VARCHAR(30) DEFAULT 'Chennai',
+  8      Dept_ID INT,
+  9      FOREIGN KEY (Dept_ID)
+ 10      REFERENCES DEP(Dept_ID)
+ 11  );
+    REFERENCES DEP(Dept_ID)
+                   *
+ERROR at line 10:
+ORA-00904: "DEPT_ID": invalid identifier 
+
+
+SQL> CREATE TABLE DEP
+  2  (
+  3      DEP_ID INT PRIMARY KEY,
+  4      DEP_NAME VARCHAR(30)
+  5  );
+CREATE TABLE DEP
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE STD
+  2  (
+  3      STUDENT_ID INT PRIMARY KEY,
+  4      NAME VARCHAR(50) NOT NULL,
+  5      EMAIL VARCHAR(100) UNIQUE,
+  6      AGE INT CHECK (AGE >= 18),
+  7      CITY VARCHAR(30) DEFAULT 'Chennai',
+  8      DEP_ID INT,
+  9      FOREIGN KEY (DEP_ID)
+ 10      REFERENCES DEP(DEP_ID)
+ 11  );
+
+Table created.
+
+SQL> INSERT INTO DEP VALUES (1, 'CSE');
+
+1 row created.
+
+SQL> INSERT INTO DEP VALUES (2, 'ECE');
+
+1 row created.
+
+SQL> INSERT INTO DEP VALUES (3, 'IT');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STD
+  2  VALUES (101, 'Arun', 'arun@gmail.com', 20, 'Madurai', 1);
+
+1 row created.
+
+SQL> spool off
