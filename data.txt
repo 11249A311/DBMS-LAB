@@ -1,0 +1,269 @@
+SQL> DECLARE
+  2      A NUMBER := 10;
+  3      B NUMBER := 20;
+  4      C NUMBER;
+  5  BEGIN
+  6      C := A + B;
+  7      DBMS_OUTPUT.PUT_LINE('Sum = ' || C);
+  8  END;
+  9  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2      A NUMBER := 10;
+  3      B NUMBER := 20;
+  4      C NUMBER;
+  5  BEGIN
+  6      C := A + B;
+  7      DBMS_OUTPUT.PUT_LINE('Sum = ' || C);
+  8  END;
+  9  /
+Sum = 30                                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      A NUMBER := 10;
+  3      B NUMBER := 0;
+  4      C NUMBER;
+  5  BEGIN
+  6      C := A / B;
+  7      DBMS_OUTPUT.PUT_LINE('Result = ' || C);
+  8  EXCEPTION
+  9      WHEN ZERO_DIVIDE THEN
+ 10          DBMS_OUTPUT.PUT_LINE('Error: Cannot divide by zero');
+ 11  END;
+ 12  /
+Error: Cannot divide by zero                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      V_NAME VARCHAR2(30);
+  3  BEGIN
+  4      SELECT name
+  5      INTO V_NAME
+  6      FROM student
+  7      WHERE roll_no = 999;
+  8  
+  9      DBMS_OUTPUT.PUT_LINE('Name = ' || V_NAME);
+ 10  
+ 11  EXCEPTION
+ 12      WHEN NO_DATA_FOUND THEN
+ 13          DBMS_OUTPUT.PUT_LINE('Error: No student found');
+ 14  END;
+ 15  /
+Error: No student found                                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> C := A / B;
+SP2-0023: String not found.
+SQL> ...
+SP2-0042: unknown command "..." - rest of line ignored.
+SQL> WHEN ZERO_DIVIDE THEN
+SP2-0734: unknown command beginning "WHEN ZERO_..." - rest of line ignored.
+SQL> 
+SQL> 
+SQL> DECLARE
+  2      n NUMBER := &n;
+  3  BEGIN
+  4      IF MOD(n,2) = 0 THEN
+  5          DBMS_OUTPUT.PUT_LINE('Number is even');
+  6      ELSE
+  7          DBMS_OUTPUT.PUT_LINE('Number is odd');
+  8      END IF;
+  9  END;
+ 10  /
+Enter value for n: 3
+old   2:     n NUMBER := &n;
+new   2:     n NUMBER := 3;
+Number is odd                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      n NUMBER;
+  3      i NUMBER;
+  4  BEGIN
+  5      n := &n;
+  6  
+  7      FOR i IN 1..10
+  8      LOOP
+  9          DBMS_OUTPUT.PUT_LINE(n || ' x ' || i || ' = ' || n*i);
+ 10      END LOOP;
+ 11  END;
+ 12  /
+Enter value for n: 4
+old   5:     n := &n;
+new   5:     n := 4;
+4 x 1 = 4                                                                       
+4 x 2 = 8                                                                       
+4 x 3 = 12                                                                      
+4 x 4 = 16                                                                      
+4 x 5 = 20                                                                      
+4 x 6 = 24                                                                      
+4 x 7 = 28                                                                      
+4 x 8 = 32                                                                      
+4 x 9 = 36                                                                      
+4 x 10 = 40                                                                     
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      n NUMBER;
+  3      fac NUMBER := 1;
+  4      i NUMBER;
+  5  BEGIN
+  6      n := &n;
+  7  
+  8      FOR i IN 1..n
+  9      LOOP
+ 10          fac := fac * i;
+ 11      END LOOP;
+ 12  
+ 13      DBMS_OUTPUT.PUT_LINE('Factorial = ' || fac);
+ 14  END;
+ 15  /
+Enter value for n: 4
+old   6:     n := &n;
+new   6:     n := 4;
+Factorial = 24                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      first NUMBER := 0;
+  3      second NUMBER := 1;
+  4      third NUMBER;
+  5      n NUMBER := &n;
+  6      i NUMBER;
+  7  BEGIN
+  8      DBMS_OUTPUT.PUT_LINE('Fibonacci series is:');
+  9      DBMS_OUTPUT.PUT_LINE(first);
+ 10      DBMS_OUTPUT.PUT_LINE(second);
+ 11  
+ 12      FOR i IN 2..n
+ 13      LOOP
+ 14          third := first + second;
+ 15          first := second;
+ 16          second := third;
+ 17  
+ 18          DBMS_OUTPUT.PUT_LINE(third);
+ 19      END LOOP;
+ 20  END;
+ 21  /
+Enter value for n: 6
+old   5:     n NUMBER := &n;
+new   5:     n NUMBER := 6;
+Fibonacci series is:                                                            
+0                                                                               
+1                                                                               
+1                                                                               
+2                                                                               
+3                                                                               
+5                                                                               
+8                                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      n NUMBER;
+  3      i NUMBER;
+  4      rev NUMBER := 0;
+  5      r NUMBER;
+  6  BEGIN
+  7      n := &n;
+  8  
+  9      WHILE n > 0
+ 10      LOOP
+ 11          i := MOD(n,10);
+ 12          rev := (rev * 10) + i;
+ 13          n := TRUNC(n/10);
+ 14      END LOOP;
+ 15  
+ 16      DBMS_OUTPUT.PUT_LINE('Reverse is ' || rev);
+ 17  END;
+ 18  /
+Enter value for n: 4
+old   7:     n := &n;
+new   7:     n := 4;
+Reverse is 4                                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      n NUMBER;
+  3      i NUMBER;
+  4      rev NUMBER := 0;
+  5      r NUMBER;
+  6  BEGIN
+  7      n := &n;
+  8  
+  9      WHILE n > 0
+ 10      LOOP
+ 11          i := MOD(n,10);
+ 12          rev := (rev * 10) + i;
+ 13          n := TRUNC(n/10);
+ 14      END LOOP;
+ 15  
+ 16      DBMS_OUTPUT.PUT_LINE('Reverse is ' || rev);
+ 17  END;
+ 18  /
+Enter value for n: 2345
+old   7:     n := &n;
+new   7:     n := 2345;
+Reverse is 5432                                                                 
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      str1 VARCHAR2(50) := '&str';
+  3      str2 VARCHAR2(50);
+  4      len NUMBER;
+  5      i NUMBER;
+  6  BEGIN
+  7      len := LENGTH(str1);
+  8  
+  9      FOR i IN REVERSE 1..len
+ 10      LOOP
+ 11          str2 := str2 || SUBSTR(str1,i,1);
+ 12      END LOOP;
+ 13  
+ 14      DBMS_OUTPUT.PUT_LINE('Reverse of String is ' || str2);
+ 15  END;
+ 16  /
+Enter value for str: 234
+old   2:     str1 VARCHAR2(50) := '&str';
+new   2:     str1 VARCHAR2(50) := '234';
+Reverse of String is 432                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2      str1 VARCHAR2(50) := '&str';
+  3      str2 VARCHAR2(50);
+  4      len NUMBER;
+  5      i NUMBER;
+  6  BEGIN
+  7      len := LENGTH(str1);
+  8  
+  9      FOR i IN REVERSE 1..len
+ 10      LOOP
+ 11          str2 := str2 || SUBSTR(str1,i,1);
+ 12      END LOOP;
+ 13  
+ 14      DBMS_OUTPUT.PUT_LINE('Reverse of String is ' || str2);
+ 15  END;
+ 16  /
+Enter value for str: helloww
+old   2:     str1 VARCHAR2(50) := '&str';
+new   2:     str1 VARCHAR2(50) := 'helloww';
+Reverse of String is wwolleh                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> spool off
